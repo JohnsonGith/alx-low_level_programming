@@ -3,15 +3,15 @@
 /**
  * _pow_recursion - returns the value of x raised to the power of y.
  * @x: base
- * @y: exponent
- * Return: value of the exponetiation.
+ * @y: base
+ * Return: value of exponetiation
  */
 int _pow_recursion(int x, int y)
 {
-	if (if y < 0)
+	if (y < 0)
 		return (-1);
 	else if (y == 0)
 		return (1);
 	else
-		return (x * _power_recursion(x, y - 1));
+		return (x * _pow_recursion(x, y - 1));
 }
