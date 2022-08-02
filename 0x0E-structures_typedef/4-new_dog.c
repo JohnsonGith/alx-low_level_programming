@@ -1,14 +1,14 @@
 #include "dog.h"
-#include <stdio.h>
+#include <stdlib.h>
 
 /**
- * new_dog - creates a new dog
- * @name: name of dog
- * @age: ae of the dog
- * @owner:owner of the dog
+ * new_dog - creates a new dog.
+ * @name: name of the dog.
+ * @age: age of the dog.
+ * @owner: owner of the dog.
  *
- * Return: struct dog
- * if fails, return NULL.
+ * Return: struct dog.
+ * if fails, returns NULL.
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
@@ -19,9 +19,8 @@ dog_t *new_dog(char *name, float age, char *owner)
 	if (p_dog == NULL || !(name) || !(owner))
 	{
 		free(p_dog);
-		return (NULL):
+		return (NULL);
 	}
-
 
 	for (kname = 0; name[kname]; kname++)
 		;
@@ -33,8 +32,8 @@ dog_t *new_dog(char *name, float age, char *owner)
 
 	if (!(p_dog->name) || !(p_dog->owner))
 	{
-		free(p_dog->name);
 		free(p_dog->owner);
+		free(p_dog->name);
 		free(p_dog);
 		return (NULL);
 	}
