@@ -1,47 +1,90 @@
 #include "lists.h"
+#include <stdio.h>
+
+size_t looped_listint_len(const listint_t *head);
+size_t print_listint_safe(const listint_t *head);
 
 /**
- * print_listint_safe - prints a list even with loop
- * @head: pointer to head
+ * looped_listint_len - Counts the number of unique nodes
+ * in a looped listint_t linked list.
  *
- * Return: number of nodes
+ * @head: A pointer to the head of the listint_t to check.
+ *
+ * Return: If the list is not looped - 0.
+ * Otherwise - the number of unique nodes in the list.
+ */
+size_t looped_listint_len(const listint_t *head)
+{
+	const listint_t *slowP, *fastP;
+	size_t nodes = 1;
+
+	if (head == NULL || head->next == NULL)
+		return (0);
+
+	slowP = head->next;
+	fastP = (head->next)->next;
+
+	while (fastP)
+	{
+		if (slowP == fastP)
+		{
+			slowP = head;
+			while (slowP != fastP)
+			{
+				nodes++;
+				slowP = slowP->next;
+				fastP = fastP->next;
+			}
+
+			slowP = slowP->next;
+			while (slowP != fastP)
+			{
+				nodes++;
+				slowP = slowP->next;
+			}
+
+			return (nodes);
+		}
+
+		slowP = slowP->next;
+		fastP = (fastP->next)->next;
+	}
+
+	return (0);
+}
+
+
+/**
+ * print_listint_safe - Prints a listint_t list safely.
+ * @head: A pointer to the head of the listint_t list.
+ *
+ * Return: The number of nodes in the list.
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	int count = 0;
-	const listint_t *visited[1024];
+	size_t nodes, index = 0;
 
-	while (head)
+	nodes = looped_listint_len(head);
+
+	if (nodes == 0)
 	{
-		if (is_visited(head, visited, count))
+		for (; head != NULL; nodes++)
 		{
-			printf("-> [%p] %d\n", (void *)head, head->n);
-			break;
+			printf("[%p] %d\n", (void *)head, head->n);
+			head = head->next;
 		}
-		visited[count++] = head;
-		printf("[%p] %d\n", (void *)head, head->n);
-		head = head->next;
 	}
-	return (count);
-}
 
-/**
- * is_visited - check if a node is visited
- * @node: pointer to node
- * @visited: list of visited
- * @count: length of visited
- *
- * Return: 1 if is visited and 0 otherwise
- */
-int is_visited(const listint_t *node, const listint_t **visited, int count)
-{
-	int i = 0;
-
-	while (i < count)
+	else
 	{
-		if (node == visited[i])
-			return (1);
-		i++;
+		for (index = 0; index < nodes; index++)
+		{
+			printf("[%p] %d\n", (void *)head, head->n);
+			head = head->next;
+		}
+
+		printf("-> [%p] %d\n", (void *)head, head->n);
 	}
-	return (0);
+
+	return (nodes);
 }
