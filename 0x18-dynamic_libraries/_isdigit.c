@@ -3,4 +3,4 @@
 /**
  * main - create static files
  */
-_isdigit(int c){}
+int _isdigit(int c){}
